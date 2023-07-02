@@ -9,15 +9,17 @@ app.set('view engine','ejs')
 var today = new Date();
 var currentDay = today.getDay();
 var dayOfWeek = ""
-
+var kindOfDay = "Working"
 
 app.get("/",(req,res)=>{
     switch(currentDay){
         case 0:
             dayOfWeek = "Sunday"
+            kindOfDay = "Holy"
             break
         case 1:
             dayOfWeek = "Monday"
+            kindOfDay = "Holy"
             break
         case 2:
             dayOfWeek = "Tusday"
@@ -38,7 +40,7 @@ app.get("/",(req,res)=>{
             dayOfWeek = "Wrong Return Value"
             break
     }
-    res.render("list",{Today: dayOfWeek})
+    res.render("list",{Today: dayOfWeek,KindOfDay:kindOfDay})
 })
 
 

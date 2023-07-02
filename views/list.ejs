@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>To Do List</title>
-</head>
-<body>
-    <h1>Today is <%= Today %></h1>
-</body>
+  </head>
+  <body>
+    <% if(Today === "Sunday" || Today === "Saturday"){ %>
+    <h1 style="color: blue;"><%= Today %> ToDo List</h1>
+    <p>And it is <%= KindOfDay %>day</p>
+    <%} else {%>
+    <h1 style="color: blueviolet;"><%= Today %> ToDo List</h1>
+    <p style="font-weight: bolder;">And it is <%= KindOfDay %>day</p>
+    <%}%>
+  </body>
 </html>
