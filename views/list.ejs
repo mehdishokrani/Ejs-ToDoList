@@ -7,7 +7,7 @@
   </head>
   <body>
     <dir class="box" id="heading">
-      <h1><%= DayOfWeek %></h1>
+      <h1><%= listTitle %></h1>
     </dir>
     <div class="box" id="">
       <% for(var i=0; i<newItem.length;i++){ %>
@@ -19,7 +19,7 @@
     <% } %>
     <form action="/" method="post">
       <input type="text" name="newItem" placeholder="Add To Do" autocomplete="off">
-      <button type="submit" id="btn" name="btn">+</button>
+      <button type="submit" id="btn" value="<%= listTitle %>" name="btn">+</button>
   </form>  
   
   </div>
