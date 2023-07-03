@@ -2,20 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="css/styles.css">
     <title>To Do List</title>
   </head>
   <body>
-    <h1><%= DayOfWeek %></h1>
-    <ul>
-        <% for(var i=0; i<newItem.length;i++){ %>
-            <li><%= newItem[i] %></li>
-        <% } %>
-
-    </ul>
+    <dir class="box" id="heading">
+      <h1><%= DayOfWeek %></h1>
+    </dir>
+    <div class="box" id="">
+      <% for(var i=0; i<newItem.length;i++){ %>
+        <div class="item">
+          <input type="checkbox">
+          <p><%= newItem[i] %></p>
+        </div>
+        
+    <% } %>
     <form action="/" method="post">
-        <input type="text" name="newItem" placeholder="Add To Do">
-        <button type="submit" id="btn" name="btn">Add</button>
-    </form>
+      <input type="text" name="newItem" placeholder="Add To Do" autocomplete="off">
+      <button type="submit" id="btn" name="btn">+</button>
+  </form>  
+  
+  </div>
+        
+
+    
 
   </body>
 </html>
