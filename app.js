@@ -1,49 +1,33 @@
-const express  =require("express")
-const bodyParser = require("body-parser")
+const express = require("express");
+const bodyParser = require("body-parser");
 
-const port = 3000
-const app = express()
+const port = 3000;
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.set('view engine','ejs')
+app.set("view engine", "ejs");
+
+var items = ["Buy Food","Cook Food","Eat Food"];
 
 var today = new Date();
-var currentDay = today.getDay();
-var dayOfWeek = ""
-var kindOfDay = "Working"
+var option = {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+};
 
-app.get("/",(req,res)=>{
-    switch(currentDay){
-        case 0:
-            dayOfWeek = "Sunday"
-            kindOfDay = "Holy"
-            break
-        case 1:
-            dayOfWeek = "Monday"
-            kindOfDay = "Holy"
-            break
-        case 2:
-            dayOfWeek = "Tusday"
-            break
-        case 3:
-            dayOfWeek = "Wednesday"
-            break
-        case 4:
-            dayOfWeek = "Thursday"
-            break
-        case 5:
-            dayOfWeek = "Friday"
-            break
-        case 6:
-            dayOfWeek = "Saturday"
-            break
-        default:
-            dayOfWeek = "Wrong Return Value"
-            break
-    }
-    res.render("list",{Today: dayOfWeek,KindOfDay:kindOfDay})
-})
+app.post("/", (req, res) => {
+  var item = req.body.newItem;
+  items.push(item);
+  res.redirect("/");
+});
 
+var dayOfWeek = today.toLocaleDateString("en-US", option);
 
-app.listen(port,()=>{
-    console.log(`Server started at port ${port}`)
-})
+app.get("/", (req, res) => {
+  res.render("list", { DayOfWeek: dayOfWeek, newItem: items });
+});
+
+app.listen(port, () => {
+  console.log(`Server started at port ${port}`);
+});

@@ -5,12 +5,17 @@
     <title>To Do List</title>
   </head>
   <body>
-    <% if(Today === "Sunday" || Today === "Saturday"){ %>
-    <h1 style="color: blue;"><%= Today %> ToDo List</h1>
-    <p>And it is <%= KindOfDay %>day</p>
-    <%} else {%>
-    <h1 style="color: blueviolet;"><%= Today %> ToDo List</h1>
-    <p style="font-weight: bolder;">And it is <%= KindOfDay %>day</p>
-    <%}%>
+    <h1><%= DayOfWeek %></h1>
+    <ul>
+        <% for(var i=0; i<newItem.length;i++){ %>
+            <li><%= newItem[i] %></li>
+        <% } %>
+
+    </ul>
+    <form action="/" method="post">
+        <input type="text" name="newItem" placeholder="Add To Do">
+        <button type="submit" id="btn" name="btn">Add</button>
+    </form>
+
   </body>
 </html>
