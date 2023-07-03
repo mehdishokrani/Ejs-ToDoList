@@ -40,6 +40,10 @@ app.get("/work", (req, res) => {
   res.render("list", { listTitle: "Work List", newItem: workItems });
 });
 
+app.get("/about",(req,res)=>{
+    res.render("about")
+})
+
 app.listen(port, () => {
   console.log(`Server started at port ${port}`);
 });
