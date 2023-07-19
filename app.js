@@ -15,6 +15,7 @@ const workItems = [];
 
 app.post("/", (req, res) => {
   let item = req.body.newItem;
+  if(item != ""){
   if (req.body.btn === "Work List") {
     workItems.push(item);
     res.redirect("/work");
@@ -22,6 +23,7 @@ app.post("/", (req, res) => {
     items.push(item);
     res.redirect("/");
   }
+}
 });
 
 
