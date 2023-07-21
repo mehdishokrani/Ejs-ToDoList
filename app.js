@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const date = require(__dirname + "/date.js");
+const lodash = require('lodash');
 
 const port = 3000;
 const app = express();
@@ -40,7 +41,6 @@ const defaultItems = [item1, item2, item3];
 const dayOfWeek = date.getDay();
 
 app.get("/", (req, res) => {
-  
   Item.find({}).then((result) => {
     items = result;
     if (items.length === 0) {
@@ -65,23 +65,23 @@ app.get("/", (req, res) => {
 });
 
 app.get("/:customeListName", (req, res) => {
-  const customeListName = req.params.customeListName;
+  const customeListName = lodash.capitalize(req.params.customeListName);
 
-  List.findOne({ name: customeListName.toLowerCase() }).then((result) => {
-    if(!result){
+  List.findOne({ name: customeListName }).then((result) => {
+    if (!result) {
       const list = new List({
-        name: customeListName.toLowerCase(),
-        items: defaultItems
-      })
-      list.save()
-      res.redirect("/"+customeListName)
-    }else{
-      res.render("list", {listTitle: customeListName.toUpperCase(), newItem: result.items })
+        name: customeListName,
+        items: defaultItems,
+      });
+      list.save();
+      res.redirect("/" + customeListName);
+    } else {
+      res.render("list", {
+        listTitle: customeListName,
+        newItem: result.items,
+      });
     }
   });
-    
-
-  
 });
 
 app.get("/about", (req, res) => {
@@ -90,30 +90,36 @@ app.get("/about", (req, res) => {
 
 app.post("/", (req, res) => {
   let newItem = req.body.newItem;
-  const listName = (req.body.btn).toLowerCase()
+  const listName = req.body.btn;
   if (newItem != "") {
     const item = new Item({
       name: newItem,
     });
 
-    if(listName === dayOfWeek){
-      item.save()
-      res.redirect("/")
-    }else{
-      List.findOne({name: listName}).then((result)=>{
-        result.items.push(item)
-        result.save()
-        res.redirect("/"+listName)
-      })
+    if (listName === dayOfWeek) {
+      item.save();
+      res.redirect("/");
+    } else {
+      List.findOne({ name: listName }).then((result) => {
+        result.items.push(item);
+        result.save();
+        res.redirect("/" + listName);
+      });
     }
-    
   }
 });
 
 app.post("/delete", (req, res) => {
   const checkedItamID = req.body.checkBox;
-  Item.findByIdAndRemove(checkedItamID).exec();
-  res.redirect("/");
+  const listName = (req.body.listTitle)
+  if (listName === dayOfWeek) {
+
+    Item.findByIdAndRemove(checkedItamID).exec();
+    res.redirect("/");
+  }else{
+    List.findOneAndUpdate({name: listName},{$pull:{items:{_id:checkedItamID}}}).exec()
+    res.redirect("/"+listName)
+  }
 });
 
 app.listen(port, () => {
