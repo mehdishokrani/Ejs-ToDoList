@@ -1,16 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+require("dotenv").config(); // Load environment variables from .env file
 const date = require(__dirname + "/date.js");
 const lodash = require('lodash');
 
-const port = 3000;
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://127.0.0.1:27017/todolistDB");
+//mongoose.connect("mongodb+srv://mehdishokrani:gJvr4WQ2oy9L4Nk4@cluster0.aqwcxsn.mongodb.net/todolistDB");
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.set("view engine", "ejs");
 
@@ -122,6 +127,12 @@ app.post("/delete", (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server started at port ${port}`);
+
+// const port = 3000;
+// app.listen(port, () => {
+//   console.log(`Server started at port ${port}`);
+// });
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}...`);
 });
