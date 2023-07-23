@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-//mongoose.connect("mongodb+srv://mehdishokrani:gJvr4WQ2oy9L4Nk4@cluster0.aqwcxsn.mongodb.net/todolistDB");
+
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
